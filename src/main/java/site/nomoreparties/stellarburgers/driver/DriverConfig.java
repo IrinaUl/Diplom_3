@@ -1,50 +1,64 @@
 package site.nomoreparties.stellarburgers.driver;
 
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.util.concurrent.TimeUnit;
+import static com.codeborne.selenide.Selenide.*;
 
 public class DriverConfig {
     protected static WebDriver driver;
     public static final String BASE_URL = "https://stellarburgers.nomoreparties.site";
+    private static final boolean HEADLESS = true;
 
     public static WebDriver createWebDriver() {
         String browser = System.getProperty("browser");
         if (browser == null) {
-            return startChromeDriver();
+            return startChromeDriverSelenide();
         }
-
         switch (browser) {
             case "yandex":
-                return startYandexDriver();
+                return startYandexDriverSelenide();
             case "chrome":
+                return startChromeDriverSelenide();
             default:
-                return startChromeDriver();
+                return startChromeDriverSelenide();
         }
     }
 
-    public static WebDriver startChromeDriver() {
+    public static WebDriver startChromeDriverSelenide() {
         System.setProperty("webdriver.chrome.driver","src/main/java/site/nomoreparties/stellarburgers/resources/chromedriver");
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(5000,
-                TimeUnit.MILLISECONDS);
-        driver.manage().timeouts().pageLoadTimeout(10000,
-                TimeUnit.MILLISECONDS);
-        driver.manage().timeouts().setScriptTimeout(5000,
-                TimeUnit.MILLISECONDS);
+        ChromeOptions options = new ChromeOptions();
+        if (HEADLESS) {
+            options.addArguments("--headless=new");
+            options.addArguments("--disable-gpu");
+        }
+        WebDriver driver = new ChromeDriver(options);
+        WebDriverRunner.setWebDriver(driver);
+        Configuration.timeout = 6000;
+        Configuration.pageLoadTimeout = 8000;
+
         return driver;
     }
 
-    public static WebDriver startYandexDriver() {
+    public static WebDriver startYandexDriverSelenide() {
         System.setProperty("webdriver.chrome.driver","src/main/java/site/nomoreparties/stellarburgers/resources/chromedriver-128");
         ChromeOptions options = new ChromeOptions();
         options.setBinary("/Applications/Yandex.app/Contents/MacOS/Yandex");
-        return driver = new ChromeDriver(options);
+        if (HEADLESS) {
+            options.addArguments("--headless=new");
+            options.addArguments("--disable-gpu");
+        }
+        WebDriver driver = new ChromeDriver(options);
+        WebDriverRunner.setWebDriver(driver);
+        Configuration.timeout = 6000;
+        Configuration.pageLoadTimeout = 8000;
+        return driver;
     }
 
     public static void goToPage(String url) {
-       driver.get(url);
+        open(url);
     }
 }

@@ -155,6 +155,10 @@ Temporary Items
 target/
 target/*
 target
+build/*
+./build
+build
+build/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
