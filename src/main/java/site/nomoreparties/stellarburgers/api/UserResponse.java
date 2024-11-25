@@ -9,8 +9,8 @@ import site.nomoreparties.stellarburgers.driver.DriverConfig;
 import static io.restassured.RestAssured.given;
 
 public class UserResponse {
-    public static final String CREATE_PATH = "/api/auth/register";
-    public static final String LOGIN_PATH = "/api/auth/login";
+    private static final String CREATE_PATH = "/api/auth/register";
+    private static final String LOGIN_PATH = "/api/auth/login";
     private static final String DELETE_PATH = "/api/auth/user";
     private static final String UPDATE_PATH = "/api/auth/user";
 

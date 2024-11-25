@@ -55,6 +55,7 @@ public class DriverConfig {
         WebDriverRunner.setWebDriver(driver);
         Configuration.timeout = 6000;
         Configuration.pageLoadTimeout = 8000;
+
         return driver;
     }
 

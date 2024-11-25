@@ -4,7 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class MainPage {
-    public final String TITLE_MAIN_PAGE = "Соберите бургер";
+    public static final String TITLE_MAIN_PAGE = "Соберите бургер";
 
     public SelenideElement buttonLogin = $x("//button[text()='Войти в аккаунт']");
     public SelenideElement buttonToPersonalAccount = $x("//p[text()='Личный Кабинет']/..");

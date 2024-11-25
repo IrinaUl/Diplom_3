@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import site.nomoreparties.stellarburgers.api.UserResponse;
+import site.nomoreparties.stellarburgers.api.model.User;
 import site.nomoreparties.stellarburgers.page.LoginPage;
 import site.nomoreparties.stellarburgers.page.RegistrationPage;
 import site.nomoreparties.stellarburgers.utils.RandomUtils;
@@ -18,6 +20,8 @@ public class RegistrationTests {
     private WebDriver driver;
     private RegistrationPage registrationPage;
     private LoginPage loginPage;
+    private String email;
+    private String password;
 
     @Before
     public void setUp() {
@@ -32,8 +36,10 @@ public class RegistrationTests {
     @Description("Проверка успешной регистрации на сайте нового пользователя")
     public void registrationTest() {
         registrationPage.name.setValue(RandomUtils.cyrillic(5));
-        registrationPage.email.setValue(RandomUtils.randomEmail(7));
-        registrationPage.password.setValue(RandomUtils.randomPassword(RandomUtils.randomNumber(6, 10)));
+        email = RandomUtils.randomEmail(7);
+        registrationPage.email.setValue(email);
+        password = RandomUtils.randomPassword(RandomUtils.randomNumber(6, 10));
+        registrationPage.password.setValue(password);
         registrationPage.buttonRegister.click();
         loginPage.title.shouldBe(Condition.visible);
         assertEquals("Пользователь не смог зарегистрироваться", LoginPage.URL, url());
@@ -52,6 +58,12 @@ public class RegistrationTests {
 
     @After
     public void tearDown() {
+        if (email != null) {
+            User user = new User().withEmail(email).withPassword(password);
+            UserResponse userResponse = new UserResponse();
+            String token = userResponse.login(user).path("accessToken");
+            userResponse.delete(token);
+        }
         driver.close();
     }
 }

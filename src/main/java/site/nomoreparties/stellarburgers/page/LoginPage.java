@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class LoginPage {
     public static final String URL = DriverConfig.BASE_URL + "/login";
-    public static String TITLE_LOGIN_PAGE = "Вход";
+    public static final String TITLE_LOGIN_PAGE = "Вход";
 
     public static SelenideElement email = $x("//label[text()='Email']/../input");
     public static SelenideElement password = $x("//label[text()='Пароль']/../input");
