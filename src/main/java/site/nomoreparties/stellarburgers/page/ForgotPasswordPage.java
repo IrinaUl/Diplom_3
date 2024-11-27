@@ -8,5 +8,5 @@ import static com.codeborne.selenide.Selenide.$x;
 public class ForgotPasswordPage {
     public static final String URL = DriverConfig.BASE_URL + "/forgot-password";
 
-    public SelenideElement buttonLogin = $x("//a[text()='Войти']");
+    public final SelenideElement buttonLogin = $x("//a[text()='Войти']");
 }
